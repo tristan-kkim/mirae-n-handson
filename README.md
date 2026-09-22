@@ -28,7 +28,7 @@
 | `modern` | 현행 샘플 DB(MariaDB)만. `modern/api` · `modern/web` 은 로컬에서 실행 | 3306 |
 
 - `php` · `thymeleaf` · `modern` 은 **같은 MariaDB 서비스 하나**를 공유합니다. 프로필을 둘 이상 같이 올려도 3306 충돌이 없습니다.
-- `down` · `pull` · `logs` 도 반드시 프로필을 붙여 실행합니다(아래 명령 목록 참조).
+- `down` · `build` · `logs` 도 반드시 프로필을 붙여 실행합니다(아래 명령 목록 참조).
 - **Apple Silicon Mac**: `mssql` 프로필은 x86 에뮬레이션으로 돌아 느리거나 뜨지 않을 수 있습니다. macOS 참가자는 `php` 또는 `thymeleaf` 를 권합니다. 성적 집계 모듈의 프로시저 소스는 `legacy/grade-mssql/` 의 `.sql` 파일로도 읽을 수 있습니다.
 - **시드 초기화**: DB 컨테이너는 영구 볼륨을 쓰지 않습니다. `docker compose --profile php down && docker compose --profile php up -d` 로 컨테이너를 다시 만들면 시드 상태(고정 ID · 고정 시각)로 돌아갑니다. 데이터를 바꾸는 실습(재배포 등) 전후에 이 방법으로 상태를 맞추세요.
 
@@ -44,7 +44,7 @@
 ## 명령
 
 ```bash
-# 기동 · 확인 · 정리 — down · pull · logs 는 전부 프로필을 붙인 형태
+# 기동 · 확인 · 정리 — down · build · logs 는 전부 프로필을 붙인 형태
 docker compose --profile php up -d
 docker compose --profile thymeleaf up -d
 docker compose --profile mssql up -d            # Apple Silicon에서는 느리거나 안 뜰 수 있음 → macOS는 php / thymeleaf 권장
@@ -53,8 +53,8 @@ docker compose ps
 docker compose --profile php down
 docker compose --profile php --profile modern down
 docker compose --profile php --profile thymeleaf --profile mssql --profile modern down   # Day 4-3 마지막 정리
-docker compose --profile thymeleaf --profile modern pull                                  # Day 0 준비 9
-docker compose --profile mssql pull                                                       # Day 0, Windows만
+docker compose --profile thymeleaf --profile modern build                                 # Day 0 준비 9 (이미지를 미리 만들어 둠)
+docker compose --profile mssql build                                                      # Day 0, Windows만
 docker compose --profile php logs
 
 # 현행 샘플

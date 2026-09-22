@@ -59,13 +59,13 @@ cd modern/api && ./gradlew build       # 테스트 포함 전체 빌드
 ```
 modern/api/src/main/java/com/example/
 ├── item/          문항 · 단원 · 태그 (ItemController, ItemService, ItemRepository, Item, Unit)
-├── assignment/    과제 배포 (골격만 있음)
+├── assignment/    과제 배포 · 재배포 · 학급 리포트 (Distribution*, Report*)
 └── common/        @ControllerAdvice, 공통 응답 · 예외
 modern/api/src/main/resources/application.yml       기본 프로필 = 로컬 MariaDB, 커넥션 풀 설정 포함
 modern/api/src/test/resources/application-test.yml  테스트 프로필 = H2 (MariaDB 모드)
 ```
 
-- 기존 엔드포인트: `GET /api/units`, `GET /api/units/{code}/items`, `GET /api/items/{id}`. 새 엔드포인트는 `/api/<도메인 복수형>` 아래에 둔다.
+- 기존 엔드포인트: `GET /api/units`, `GET /api/units/{code}/items`, `GET /api/items/{id}`, `GET /api/distributions/{id}`, `POST /api/distributions/{id}/redistribute`, `GET /api/classes/{id}/report`. 새 엔드포인트는 `/api/<도메인 복수형>` 아래에 둔다.
 - 공개 문항만 노출한다(`status = 'A'`). 삭제 플래그가 아니라 상태 코드로 판단한다.
 - 새 조회 API 는 컨트롤러 → 서비스 → 리포지토리 세 파일과 테스트를 같은 도메인 패키지에 만든다.
 - 레거시 규칙을 옮길 때는 근거를 `파일:줄번호` 로 답변에 적는다(예: `legacy/item-bank-php/search.php:214`).

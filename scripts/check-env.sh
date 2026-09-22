@@ -121,7 +121,7 @@ else
   fail "Docker 가 없습니다"; SECTION_FAIL=1
 fi
 
-[ "$SECTION_FAIL" = "1" ] && hint "Day 0 준비 2 (JDK · Node · Python) · 준비 3 (Docker · Git · gh)"
+[ "$SECTION_FAIL" = "1" ] && hint "Day 0 준비 2 (Git · GitHub CLI · JDK · Node · Python) · 준비 3 (Docker)"
 
 # ──────────────────────────────────────────────────────────────────────────
 section 2 "Claude Code 로그인 — claude 설치 + 구독 계정 로그인"
