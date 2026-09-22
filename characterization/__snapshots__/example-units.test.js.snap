@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`item-bank · 단원 목록(units.php) > 단원 목록 전체 — 표의 행 · 건수 · 안내 문구 1`] = `
+{
+  "count": 5,
+  "message": null,
+  "rows": [
+    {
+      "code": "M5-1",
+      "grade": 5,
+      "item_count": 6,
+      "name": "분수의 덧셈과 뺄셈",
+    },
+    {
+      "code": "M5-2",
+      "grade": 5,
+      "item_count": 5,
+      "name": "분수의 곱셈",
+    },
+    {
+      "code": "M5-3",
+      "grade": 5,
+      "item_count": 5,
+      "name": "소수의 곱셈",
+    },
+    {
+      "code": "M6-1",
+      "grade": 6,
+      "item_count": 5,
+      "name": "분수의 나눗셈",
+    },
+    {
+      "code": "M6-2",
+      "grade": 6,
+      "item_count": 5,
+      "name": "비와 비율",
+    },
+  ],
+  "status": 200,
+}
+`;

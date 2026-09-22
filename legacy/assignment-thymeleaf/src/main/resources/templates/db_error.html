@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{layout :: head('오류')}"></head>
+<body>
+<nav th:replace="~{layout :: nav(${menu})}"></nav>
+<h2>데이터베이스 오류</h2>
+<p class="err">DB에 연결할 수 없거나 조회에 실패했습니다. DB 컨테이너가 준비된 뒤 새로 고침하세요.</p>
+<p th:text="${detail}"></p>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

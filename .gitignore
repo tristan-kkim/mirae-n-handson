@@ -1,0 +1,23 @@
+# 작업용
+_build/
+
+# 개인 설정 · 비밀값
+.claude/settings.local.json
+.env
+
+# 빌드 · 의존성 산출물
+node_modules/
+build/
+.gradle/
+out/
+dist/
+mcp-skeleton/build/
+.venv/
+__pycache__/
+*.pyc
+
+# OS · 에디터
+.DS_Store
+.idea/
+*.iml
+.vscode/

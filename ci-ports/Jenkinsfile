@@ -1,0 +1,36 @@
+// Jenkins 이식 예시 (3회차 Day 3-1 실습 5 · 팀 토의용)
+// Claude Code 공식 문서에는 Jenkins 예제가 없습니다. 이 파일은 headless 문서에서 검증된 요소(설치 명령, claude -p 플래그,
+// ANTHROPIC_API_KEY)를 조합한 구성안이며, 실제 Jenkins 에서 실행해 보지 않았습니다. Linux 에이전트를 가정합니다.
+// 에이전트에 bash · curl · git · jq 가 필요합니다. --bare 이므로 저장소의 CLAUDE.md 는 읽지 않습니다.
+pipeline {
+  agent any
+  options {
+    timeout(time: 20, unit: 'MINUTES')
+  }
+  stages {
+    stage('Claude Review') {
+      steps {
+        withCredentials([string(credentialsId: 'anthropic-api-key', variable: 'ANTHROPIC_API_KEY')]) {
+          sh '''
+            set -eu
+            curl -fsSL https://claude.ai/install.sh | bash
+            export PATH="$HOME/.local/bin:$PATH"
+
+            git diff origin/main...HEAD | claude --bare -p "Review this diff. Report potential bugs, security issues, and performance concerns with file:line references." \
+              --output-format json \
+              --max-turns 5 \
+              --max-budget-usd 2.00 \
+              > claude-review.json
+
+            jq -r '.result' claude-review.json > claude-review.md
+          '''
+        }
+      }
+    }
+  }
+  post {
+    always {
+      archiveArtifacts artifacts: 'claude-review.*', allowEmptyArchive: true
+    }
+  }
+}

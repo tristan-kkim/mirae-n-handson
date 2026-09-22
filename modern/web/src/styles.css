@@ -1,0 +1,275 @@
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --border: #d9dde3;
+  --text: #1f2933;
+  --muted: #667085;
+  --accent: #2563eb;
+  --accent-soft: #e0ebff;
+  --error: #b42318;
+  font-family:
+    'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.app__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.app__api {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.browser {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .browser {
+    grid-template-columns: 1fr;
+  }
+}
+
+.browser__pane {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 240px;
+}
+
+.browser__pane h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+/* UnitList */
+.unit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unit-list__item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.unit-list__item:hover {
+  border-color: var(--accent);
+}
+
+.unit-list__item--selected {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.unit-list__code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.unit-list__grade {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ItemTable */
+.item-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.item-table th,
+.item-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.item-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.item-table__row--selected td {
+  background: var(--accent-soft);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+/* LevelBadge */
+.level-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: #64748b;
+}
+
+.level-badge--1 {
+  background: #16a34a;
+}
+.level-badge--2 {
+  background: #65a30d;
+}
+.level-badge--3 {
+  background: #ca8a04;
+}
+.level-badge--4 {
+  background: #ea580c;
+}
+.level-badge--5 {
+  background: #dc2626;
+}
+
+/* StatusBadge */
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.status-badge--A {
+  color: #15803d;
+  border-color: #86efac;
+}
+.status-badge--R {
+  color: #b45309;
+  border-color: #fcd34d;
+}
+.status-badge--D {
+  color: var(--error);
+  border-color: #fca5a5;
+}
+
+/* ItemDetail */
+.item-detail__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.item-detail__header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.item-detail__badges {
+  display: flex;
+  gap: 6px;
+}
+
+.item-detail__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.item-detail__meta dt {
+  color: var(--muted);
+}
+
+.item-detail__meta dd {
+  margin: 0;
+}
+
+.item-detail h4 {
+  margin: 12px 0 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.item-detail__stem {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

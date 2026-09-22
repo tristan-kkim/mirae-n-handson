@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title} + ' - 과제 배포'">과제 배포</title>
+    <style>
+        body { font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; margin: 20px; color: #222; }
+        nav a { margin-right: 14px; text-decoration: none; color: #1a4d8f; }
+        nav a.on { font-weight: bold; text-decoration: underline; }
+        table { border-collapse: collapse; margin-top: 12px; }
+        th, td { border: 1px solid #999; padding: 4px 10px; font-size: 13px; }
+        th { background: #e8eef7; }
+        tr.past td { color: #888; }
+        .msg { background: #e6f4e6; border: 1px solid #7bb47b; padding: 8px; margin: 10px 0; }
+        .err { background: #fbe9e9; border: 1px solid #d08080; padding: 8px; margin: 10px 0; }
+        .warn { background: #fff7dc; border: 1px solid #d8b950; padding: 6px 8px; margin: 6px 0; font-size: 12px; }
+        form.inline { display: inline; }
+        button.small { font-size: 11px; padding: 1px 6px; }
+        footer { margin-top: 30px; font-size: 11px; color: #999; }
+    </style>
+</head>
+<body>
+<nav th:fragment="nav(menu)">
+    <a th:href="@{/assignments}" th:classappend="${menu == 'assignments'} ? 'on'">과제 목록</a>
+    <a th:href="@{/distributions}" th:classappend="${menu == 'distributions'} ? 'on'">배포 목록</a>
+    <a th:href="@{/distributions/new}" th:classappend="${menu == 'new'} ? 'on'">새 배포</a>
+</nav>
+<div th:fragment="flash">
+    <p class="msg" th:if="${message}" th:text="${message}"></p>
+    <p class="err" th:if="${error}" th:text="${error}"></p>
+    <div th:if="${warnings}">
+        <p class="warn" th:each="w : ${warnings}" th:text="'주의: ' + ${w}"></p>
+    </div>
+</div>
+<footer th:fragment="footer">과제 배포 관리 v1.4.2</footer>
+</body>
+</html>

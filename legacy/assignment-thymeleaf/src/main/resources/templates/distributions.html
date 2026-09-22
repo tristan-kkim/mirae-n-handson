@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{layout :: head('배포 목록')}"></head>
+<body>
+<nav th:replace="~{layout :: nav(${menu})}"></nav>
+<h2>배포 목록</h2>
+<div th:replace="~{layout :: flash}"></div>
+<p id="count" th:text="'배포 ' + ${#lists.size(rows)} + '건'"></p>
+<table id="distributions">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>과제</th>
+        <th>학급</th>
+        <th>배포 시각</th>
+        <th>재배포</th>
+        <th>제출 수</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${rows}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.assignmentTitle}"></td>
+        <td th:text="${d.className}"></td>
+        <td th:text="${d.distributedAt == null} ? '' : ${#temporals.format(d.distributedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${d.redistributed == 1} ? 'Y' : 'N'"></td>
+        <td th:text="${d.submittedCount}"></td>
+        <td>
+            <!-- 재배포 버튼: 아직 재배포 안 했거나, 연장 상태인 과제만 -->
+            <form class="inline" method="post" th:action="@{/distributions/{id}/redistribute(id=${d.id})}"
+                  th:if="${d.redistributed == 0 or d.assignmentStatus == 'X'}">
+                <input type="hidden" name="operator" value="teacher-01">
+                <input type="text" name="reason" size="14" placeholder="사유">
+                <button class="small" type="submit">재배포</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(rows)}">
+        <td colspan="7">배포 내역이 없습니다</td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

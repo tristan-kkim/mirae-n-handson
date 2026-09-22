@@ -1,0 +1,36 @@
+# GitLab CI 이식 예시 — MR 리뷰 전용 최소 job (3회차 Day 3-1 실습 5 · 팀 토의용)
+# 출처: Claude Code 공식 문서 gitlab-ci-cd.md 의 Quick setup job 을 읽기 전용 리뷰로 축소한 각색본.
+# 이 파일은 GitLab 에서 실제로 실행해 보지 않았습니다. GitLab 측 키워드(GIT_DEPTH, artifacts 등)는 GitLab 문서로 확인하세요.
+# 준비: Settings → CI/CD → Variables 에 ANTHROPIC_API_KEY(masked) 추가.
+# 리뷰 기준을 우리 팀 것으로 바꾸려면 -p 프롬프트에 docs/approval-checklist.md 를 읽게 하는 문장을 넣으세요.
+stages:
+  - ai
+
+claude-mr-review:
+  stage: ai
+  image: node:24-alpine3.21
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  timeout: 30m
+  variables:
+    GIT_STRATEGY: fetch
+    GIT_DEPTH: "0"
+  before_script:
+    - apk update
+    - apk add --no-cache git curl bash
+    - curl -fsSL https://claude.ai/install.sh | bash
+    # The installer places claude in ~/.local/bin, which isn't on PATH in this image
+    - export PATH="$HOME/.local/bin:$PATH"
+  script:
+    - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+    - >
+      git diff "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME...HEAD" |
+      claude
+      -p "Review this merge request diff. Report potential bugs, security issues, and performance concerns. For each finding give file:line and a short explanation."
+      --max-turns 5
+      > claude-review.md
+    - cat claude-review.md
+  artifacts:
+    when: always
+    paths:
+      - claude-review.md

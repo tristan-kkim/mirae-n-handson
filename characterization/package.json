@@ -1,0 +1,18 @@
+{
+  "name": "characterization",
+  "version": "0.1.0",
+  "private": true,
+  "description": "레거시 모듈의 동작 보존 테스트(characterization test) 틀 — HTML/JSON 응답을 같은 모양으로 정규화해 스냅샷과 비교한다",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "baseline": "node scripts/baseline.mjs"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "vitest": "^4.1.11"
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{layout :: head('과제 목록')}"></head>
+<body>
+<nav th:replace="~{layout :: nav(${menu})}"></nav>
+<h2>과제 목록</h2>
+<div th:replace="~{layout :: flash}"></div>
+<p id="count" th:text="'과제 ' + ${#lists.size(rows)} + '건'"></p>
+<table id="assignments">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>과제명</th>
+        <th>단원</th>
+        <th>마감</th>
+        <th>상태</th>
+        <th>배포 학급 수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${rows}" th:classappend="${a.dueAt != null and a.dueAt.isBefore(now) and a.status != 'X'} ? 'past'">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.title}"></td>
+        <td th:text="${a.unitCode}"></td>
+        <td th:text="${a.dueAt == null} ? '' : ${#temporals.format(a.dueAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${a.status == 'O'} ? '진행중' : (${a.status == 'X'} ? '연장' : (${a.status == 'C'} ? '종료' : (${a.status == 'R'} ? '검수중' : ${a.status})))"></td>
+        <td th:text="${a.classCount}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(rows)}">
+        <td colspan="6">등록된 과제가 없습니다</td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

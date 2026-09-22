@@ -1,0 +1,92 @@
+# 실습 저장소 compose — 프로필 4개: php / thymeleaf / mssql / modern
+#
+#   docker compose --profile php up -d          # 문항 은행(PHP) + MariaDB      → 8081, 3306
+#   docker compose --profile thymeleaf up -d    # 과제 배포(Thymeleaf) + MariaDB → 8082
+#   docker compose --profile mssql up -d        # 성적 집계 호출부 + MS-SQL     → 8083, 1433
+#   docker compose --profile modern up -d       # 현행 샘플용 MariaDB 만        → 3306
+#
+# php · thymeleaf · modern 은 MariaDB 서비스 하나(`mariadb`)를 공유한다.
+# MariaDB 데이터는 tmpfs 에 두므로 `down` → `up` 이면 항상 같은 시드 상태로 돌아온다.
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    profiles: ["php", "thymeleaf", "modern"]
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: root-pass
+      MARIADB_DATABASE: itembank
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db/mariadb/init:/docker-entrypoint-initdb.d:ro
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  item-bank:
+    build: ./legacy/item-bank-php
+    profiles: ["php"]
+    ports:
+      - "8081:80"
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      DB_NAME: itembank
+      DB_USER: app
+      DB_PASS: app-pass
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  assignment:
+    build: ./legacy/assignment-thymeleaf
+    profiles: ["thymeleaf"]
+    ports:
+      - "8082:8080"
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      DB_NAME: itembank
+      DB_USER: app
+      DB_PASS: app-pass
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/itembank
+      SPRING_DATASOURCE_USERNAME: app
+      SPRING_DATASOURCE_PASSWORD: app-pass
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mssql:
+    build: ./db/mssql
+    platform: linux/amd64
+    profiles: ["mssql"]
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Sa-pass1234!"
+      MSSQL_PID: Developer
+      TZ: Asia/Seoul
+
+  grade:
+    build: ./legacy/grade-mssql
+    profiles: ["mssql"]
+    ports:
+      - "8083:8080"
+    environment:
+      DB_HOST: mssql
+      DB_PORT: "1433"
+      DB_NAME: grades
+      DB_USER: sa
+      DB_PASS: "Sa-pass1234!"
+    depends_on:
+      - mssql
