@@ -130,6 +130,10 @@ SECTION_FAIL=0
 if has claude; then
   CLAUDE_VER="$(claude --version 2>&1 | head -1)"
   pass "Claude Code 설치됨: $CLAUDE_VER"
+  VER_NUM="$(printf '%s' "$CLAUDE_VER" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+  if [ -n "$VER_NUM" ] && [ "$(printf '%s\n%s\n' "2.1.280" "$VER_NUM" | sort -V | head -1)" != "2.1.280" ]; then
+    warn "Claude Code $VER_NUM 은 교안 기준(2.1.280 이상, Opus 5.5)보다 낮습니다 — claude update 후 터미널을 새로 여세요 (Day 0 준비 6)"
+  fi
   AUTH_OUT="$(claude auth status 2>&1)"
   AUTH_RC=$?
   if [ $AUTH_RC -eq 0 ] && ! printf '%s' "$AUTH_OUT" | grep -qi '"loggedIn": *false'; then
