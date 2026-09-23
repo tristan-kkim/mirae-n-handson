@@ -81,7 +81,7 @@ mirae-n-handson/
 ├── README.md                  이 문서
 ├── docker-compose.yml         프로필 php / thymeleaf / mssql / modern
 ├── scripts/check-env.sh       환경 셀프 점검 (Day 0, 1-1)
-├── legacy/                    분석 · 이관 대상 레거시 3종 (1-2, 1-3, 2-2)
+├── legacy/                    분석 · 이관 대상 레거시 모듈 (1-2, 1-3, 2-2)
 │   ├── item-bank-php/         문항 은행 — 교안의 기본 예시 모듈
 │   ├── assignment-thymeleaf/  과제 배포
 │   └── grade-mssql/           성적 집계 (프로시저 .sql 포함)
@@ -94,8 +94,8 @@ mirae-n-handson/
 ├── mcp-skeleton/              TypeScript MCP 서버 골격 (2-3)
 ├── pipeline-samples/          배치 로그 · 적재 건수 CSV · Terraform 예시 (3-2, 3-5, 4-1)
 ├── ci-ports/                  GitLab CI · Jenkins 이식용 예시 (3-1)
-├── specs/                     신규 개발 스펙 2종 + 시작 골격 java / python (4-2)
-└── templates/                 CLAUDE.md 템플릿 5종 · 검증루프 · 승인 체크리스트 · 시큐어코딩 체크리스트 (1-1, 2-1, 3-4)
+├── specs/                     신규 개발 스펙 + 시작 골격 java / python (4-2)
+└── templates/                 프로젝트 유형별 CLAUDE.md 템플릿 · 검증루프 · 승인 체크리스트 · 시큐어코딩 체크리스트 (1-1, 2-1, 3-4)
 ```
 
 회차별로 쓰는 폴더: **1회차** `modern/`, `templates/CLAUDE.*.md`, `legacy/`, `characterization/` · **2회차** `templates/verification-loop.md` · `approval-checklist.md`, `vendor-prs/`, `incident-logs/`, `mcp-skeleton/` · **3회차** `vendor-prs/`, `ci-ports/`, `pipeline-samples/`, `templates/secure-coding-checklist.md` · **4회차** `specs/`, 1~3회차 결과물.
